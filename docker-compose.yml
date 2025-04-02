@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: cookie_tracker_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: cookietracker_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app
+
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MAVEN_OPTS=-Dmaven.repo.local=/.m2/repository
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - .env
+    volumes:
+      - maven-repo:/.m2/repository 
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    networks:
+      - app
+
+volumes:
+  postgres_data:
+    driver: local
+  maven-repo:
+    driver: local
+
+networks:
+  app:

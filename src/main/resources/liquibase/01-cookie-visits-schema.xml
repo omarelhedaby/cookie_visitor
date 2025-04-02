@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+    <!-- Create the cookie_visits table -->
+    <changeSet id="2025_01_04_01" author="oibrahim">
+        <createTable tableName="cookie_visits">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="cookie_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Load data from CSV -->
+    <changeSet id="2025_01_04_02" author="oibrahim">
+        <loadData
+            file="classpath:db/data/cookie-logs.csv"
+            separator=","
+            tableName="cookie_visits">
+            <column name="cookie_id" type="STRING"/>
+            <column name="timestamp" type="TIMESTAMP"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>
