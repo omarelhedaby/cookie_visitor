@@ -46,7 +46,7 @@ To run the application, including the database, volumes, and networks, follow th
     To get the most visited cookie for a specific date.
 
     ```bash
-    http://localhost:8081/api/cookie-visits/most-visited/{date}
+    http://localhost:8081/api/cookie/most-visited/{date}
     ```
 
     The date should be in the format YYYY-MM-DD
